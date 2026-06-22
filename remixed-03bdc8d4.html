@@ -1,0 +1,546 @@
+<!--
+  AUTHORS OF THEIR OWN DEMISE
+  An evidentiary exposé — Brenner v. Schatz, C-03-CV-24-003218
+  Every assertion cuffed to: Plaintiffs' sworn filings, the May 31 Order's own
+  findings, the Baltimore County Land Records, or Ginnie Mae's public disclosure.
+-->
+<style>
+  :root{
+    --ink:#0b0e13; --ink2:#0e131b; --panel:#11161f; --panel2:#141a24;
+    --bone:#e9e3d4; --bone-dim:#aaa190; --bone-faint:#6f6a5e;
+    --blood:#b22f3b; --blood-deep:#6f1c25; --brass:#c4a468; --brass-dim:#8a7647;
+    --line:rgba(196,164,104,.18); --line2:rgba(233,227,212,.08);
+    --redact:#04060a;
+    --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+    --sans:"Helvetica Neue",Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--ink); color:var(--bone); font-family:var(--serif);
+    line-height:1.62; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+    background-image:
+      radial-gradient(1200px 700px at 78% -8%, rgba(178,47,59,.10), transparent 60%),
+      radial-gradient(900px 600px at 8% 18%, rgba(196,164,104,.06), transparent 55%);
+    background-attachment:fixed;
+  }
+  body::before{ /* paper grain */
+    content:""; position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.05;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    mix-blend-mode:overlay;
+  }
+  .wrap{position:relative; z-index:1; max-width:1080px; margin:0 auto; padding:0 28px}
+
+  /* progress + topbar */
+  #bar{position:fixed; top:0; left:0; height:2px; width:0; background:linear-gradient(90deg,var(--blood),var(--brass)); z-index:50}
+  #top{position:fixed; top:0; left:0; right:0; z-index:40; display:flex; justify-content:space-between; align-items:center;
+       padding:11px 26px; font-family:var(--sans); font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+       color:var(--bone-dim); background:linear-gradient(180deg,rgba(11,14,19,.92),rgba(11,14,19,0)); backdrop-filter:blur(3px)}
+  #top .c{color:var(--brass-dim)}
+
+  /* hero */
+  header{min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:120px 24px 80px; position:relative}
+  .maxim{font-style:italic; color:var(--brass); letter-spacing:.04em; font-size:clamp(13px,1.7vw,17px); opacity:.92}
+  .maxim .star{color:var(--blood); margin:0 14px; font-style:normal}
+  .caption{font-family:var(--sans); font-size:11px; letter-spacing:.34em; text-transform:uppercase; color:var(--bone-faint); margin:26px 0 30px}
+  h1.title{font-size:clamp(40px,8.4vw,104px); line-height:.96; font-weight:700; letter-spacing:-.02em; text-transform:uppercase;
+           background:linear-gradient(180deg,#f3eee0 0%,#d8cfb8 58%,#9b8f72 100%); -webkit-background-clip:text; background-clip:text; color:transparent;
+           text-shadow:0 2px 40px rgba(178,47,59,.12)}
+  .lede{max-width:760px; margin:34px auto 0; font-size:clamp(18px,2.5vw,26px); color:var(--bone); font-style:italic}
+  .lede b{color:var(--blood); font-style:normal; font-weight:700}
+  .sub{max-width:680px; margin:26px auto 0; font-family:var(--sans); font-size:13.5px; line-height:1.75; color:var(--bone-dim); letter-spacing:.01em}
+  .cue{position:absolute; bottom:30px; font-family:var(--sans); font-size:10px; letter-spacing:.3em; text-transform:uppercase; color:var(--bone-faint); animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(7px);opacity:1}}
+
+  /* sections */
+  section{padding:96px 0; border-top:1px solid var(--line2)}
+  .kicker{font-family:var(--sans); font-size:11px; letter-spacing:.34em; text-transform:uppercase; color:var(--blood); margin-bottom:18px; display:flex; align-items:center; gap:14px}
+  .kicker::before{content:""; width:30px; height:1px; background:var(--blood); opacity:.7}
+  h2{font-size:clamp(28px,4.6vw,50px); line-height:1.04; font-weight:700; letter-spacing:-.015em; margin-bottom:22px}
+  h2 em{color:var(--brass); font-style:italic}
+  .body{font-size:17px; color:var(--bone-dim); max-width:760px}
+  .body p{margin-bottom:16px}
+  .body strong{color:var(--bone); font-weight:700}
+  .body .blood{color:var(--blood); font-weight:700}
+
+  /* reveal */
+  .reveal{opacity:0; transform:translateY(26px); transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1; transform:none}
+  .fromL{opacity:0; transform:translateX(-40px); transition:all .9s cubic-bezier(.2,.7,.2,1)}
+  .fromR{opacity:0; transform:translateX(40px); transition:all .9s cubic-bezier(.2,.7,.2,1)}
+  .fromL.in,.fromR.in{opacity:1; transform:none}
+
+  /* cast grid */
+  .cast{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line2); border:1px solid var(--line2); margin-top:36px}
+  .cast .cell{background:var(--ink2); padding:26px 24px}
+  .cast h3{font-size:19px; margin-bottom:6px; color:var(--bone)}
+  .cast .role{font-family:var(--sans); font-size:10.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--brass-dim); margin-bottom:12px}
+  .cast p{font-size:14.5px; color:var(--bone-dim)}
+
+  /* sworn vs record wall */
+  .wall{margin-top:40px}
+  .wallrow{display:grid; grid-template-columns:1fr 64px 1fr; align-items:stretch; gap:0; margin-bottom:22px}
+  .swornbox,.recbox{padding:22px 24px; position:relative}
+  .swornbox{background:linear-gradient(180deg,#15110e,#120f0c); border:1px solid rgba(178,47,59,.28)}
+  .recbox{background:linear-gradient(180deg,#0d1410,#0b1110); border:1px solid rgba(120,160,120,.22)}
+  .tag{font-family:var(--sans); font-size:10px; letter-spacing:.24em; text-transform:uppercase; margin-bottom:11px; display:inline-block; padding:3px 9px; border-radius:2px}
+  .tag.s{color:#e7b6bb; background:rgba(178,47,59,.16); border:1px solid rgba(178,47,59,.4)}
+  .tag.r{color:#bfe0c4; background:rgba(120,170,120,.13); border:1px solid rgba(120,170,120,.34)}
+  .swornbox .txt{font-style:italic; color:#e8cfd0; font-size:15.5px}
+  .recbox .txt{color:#d6e6d7; font-size:15.5px}
+  .src{font-family:var(--sans); font-size:10.5px; color:var(--bone-faint); margin-top:12px; letter-spacing:.02em}
+  .vs{display:flex; align-items:center; justify-content:center; font-family:var(--sans); font-size:11px; letter-spacing:.1em; color:var(--blood); font-weight:700;
+      position:relative}
+  .vs::before{content:""; position:absolute; top:0; bottom:0; left:50%; width:1px; background:linear-gradient(180deg,transparent,var(--blood),transparent); opacity:.5}
+  .vs span{background:var(--ink); padding:7px 0; z-index:1; transform:rotate(0)}
+
+  .estoppel{margin-top:30px; padding:26px 28px; border-left:3px solid var(--blood); background:linear-gradient(90deg,rgba(178,47,59,.10),transparent)}
+  .estoppel .lbl{font-family:var(--sans); font-size:10.5px; letter-spacing:.24em; text-transform:uppercase; color:var(--blood); margin-bottom:10px}
+  .estoppel p{font-size:16.5px; color:var(--bone)}
+  .estoppel em{color:var(--brass); font-style:italic}
+
+  /* smoking guns */
+  .guns{display:grid; grid-template-columns:repeat(2,1fr); gap:18px; margin-top:38px}
+  .gun{background:linear-gradient(180deg,var(--panel),var(--panel2)); border:1px solid var(--line); padding:26px 24px; position:relative; overflow:hidden}
+  .gun::after{content:""; position:absolute; top:0; right:0; width:46px; height:46px; background:linear-gradient(225deg,rgba(178,47,59,.5),transparent 70%)}
+  .gun .no{font-family:var(--sans); font-size:11px; letter-spacing:.2em; color:var(--brass); margin-bottom:12px}
+  .gun h3{font-size:20px; margin-bottom:12px; line-height:1.18}
+  .gun p{font-size:14.5px; color:var(--bone-dim); margin-bottom:10px}
+  .gun .pin{font-family:var(--sans); font-size:11px; color:var(--bone-faint); border-top:1px solid var(--line2); padding-top:11px; margin-top:14px; letter-spacing:.02em}
+  .gun .hot{color:var(--blood); font-weight:700}
+
+  /* redaction */
+  .redact{background:var(--redact); color:transparent; padding:1px 4px; border-radius:1px; position:relative; user-select:none; box-shadow:inset 0 0 0 1px rgba(255,255,255,.04)}
+  .redact::after{content:"REDACTED"; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:rgba(233,227,212,.18); font-family:var(--sans); font-size:8px; letter-spacing:.18em}
+  .exhibit8{margin-top:18px; border:1px solid var(--line); background:#0a0d12; padding:18px; max-width:420px}
+  .exhibit8 .h{font-family:var(--sans); font-size:10px; letter-spacing:.2em; color:var(--bone-faint); margin-bottom:12px; display:flex; justify-content:space-between}
+  .exrow{display:grid; grid-template-columns:1fr 70px; gap:10px; margin-bottom:8px; align-items:center}
+  .exbar{height:15px; background:var(--redact); border-radius:1px; box-shadow:inset 0 0 0 1px rgba(255,255,255,.04)}
+
+  /* timeline */
+  .clock{display:flex; flex-wrap:wrap; align-items:baseline; gap:18px; margin:34px 0 10px; padding:26px 28px; border:1px solid var(--line); background:linear-gradient(180deg,rgba(178,47,59,.07),transparent)}
+  .clock .big{font-size:clamp(54px,11vw,108px); font-weight:700; line-height:.8; color:var(--blood); letter-spacing:-.03em; font-variant-numeric:tabular-nums}
+  .clock .u{font-family:var(--sans); font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:var(--bone-dim)}
+  .clock .d{font-family:var(--sans); font-size:12.5px; color:var(--bone-dim); margin-left:auto; max-width:300px; line-height:1.6}
+  .clock .d b{color:var(--bone)}
+
+  .tl{position:relative; margin-top:34px; padding-left:0}
+  .phase{font-family:var(--sans); font-size:10.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--brass); margin:26px 0 14px; padding-bottom:7px; border-bottom:1px solid var(--line)}
+  .phase.warn{color:var(--blood)}
+  .ev{display:grid; grid-template-columns:118px 1fr; gap:20px; padding:13px 0; border-bottom:1px solid var(--line2); align-items:start}
+  .ev .dt{font-family:var(--sans); font-size:12px; letter-spacing:.04em; color:var(--brass); padding-top:2px; font-weight:700}
+  .ev .tx{font-size:15px; color:var(--bone)}
+  .ev .tx small{display:block; font-family:var(--sans); font-size:11.5px; color:var(--bone-faint); margin-top:3px; letter-spacing:.01em}
+  .ev.flag .tx{color:#f0d9da}
+  .ev.flag .dt{color:var(--blood)}
+
+  /* custody loop */
+  .loop{margin-top:34px; display:grid; gap:1px; background:var(--line2); border:1px solid var(--line)}
+  .step{background:var(--ink2); padding:20px 24px; display:grid; grid-template-columns:34px 1fr; gap:16px; align-items:start}
+  .step .n{font-family:var(--sans); font-size:13px; color:var(--blood); font-weight:700; padding-top:2px}
+  .step .t{font-size:15.5px; color:var(--bone-dim)}
+  .step .t b{color:var(--bone)}
+  .step .t em{color:var(--brass); font-style:italic}
+  .triplet{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:30px}
+  .tri{text-align:center; padding:24px 16px; border:1px solid var(--line); background:var(--panel)}
+  .tri .a{font-size:18px; color:var(--bone-faint); text-decoration:line-through; text-decoration-color:var(--blood); text-decoration-thickness:2px}
+  .tri .arrow{color:var(--blood); margin:8px 0; font-size:14px}
+  .tri .b{font-size:20px; color:var(--bone); font-weight:700}
+  .tri .c{font-family:var(--sans); font-size:11px; color:var(--bone-faint); margin-top:8px; letter-spacing:.02em}
+
+  /* law */
+  .laws{display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-top:34px}
+  .law{padding:22px 24px; border:1px solid var(--line2); background:var(--ink2)}
+  .law .cite{font-size:18px; font-style:italic; color:var(--brass); margin-bottom:9px}
+  .law .cite span{font-style:normal; color:var(--bone-faint); font-size:13px}
+  .law p{font-size:14px; color:var(--bone-dim)}
+  .ataany{margin-top:28px; text-align:center; padding:30px; border:1px dashed var(--line); background:rgba(178,47,59,.05)}
+  .ataany .q{font-size:clamp(22px,3.6vw,34px); font-style:italic; color:var(--bone)}
+  .ataany .q b{color:var(--blood); font-style:normal}
+  .ataany .a{font-family:var(--sans); font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--bone-faint); margin-top:14px}
+
+  /* fable */
+  .fable{text-align:center; padding:30px 0 0}
+  .seal{width:200px; height:200px; margin:10px auto 30px; display:block}
+  .fable .story{max-width:680px; margin:0 auto; font-size:19px; font-style:italic; color:var(--bone)}
+  .fable .moral{max-width:680px; margin:26px auto 0; font-size:clamp(20px,3vw,28px); color:var(--brass); font-style:italic}
+  .fable .feathers{max-width:760px; margin:36px auto 0; display:grid; grid-template-columns:repeat(2,1fr); gap:10px; text-align:left}
+  .feather-i{font-family:var(--sans); font-size:13px; color:var(--bone-dim); padding:12px 16px; border-left:2px solid var(--brass-dim); background:rgba(196,164,104,.04)}
+  .feather-i b{color:var(--bone)}
+
+  /* closing */
+  .close{text-align:center; padding:30px 0}
+  .close .max{font-style:italic; color:var(--blood); font-size:clamp(18px,2.6vw,24px); letter-spacing:.02em}
+  .close h2{margin:18px 0 0}
+  .close .k{max-width:720px; margin:26px auto 0; font-size:17px; color:var(--bone-dim)}
+  .relief{max-width:720px; margin:36px auto 0; text-align:left; border:1px solid var(--line); background:var(--ink2)}
+  .relief .h{font-family:var(--sans); font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--brass); padding:16px 22px; border-bottom:1px solid var(--line2)}
+  .relief ul{list-style:none; padding:8px 0}
+  .relief li{padding:11px 22px; font-size:15px; color:var(--bone-dim); border-bottom:1px solid var(--line2); display:grid; grid-template-columns:24px 1fr; gap:10px}
+  .relief li:last-child{border-bottom:none}
+  .relief li .m{color:var(--blood); font-weight:700; font-family:var(--sans); font-size:13px}
+
+  /* footer */
+  footer{border-top:1px solid var(--line); padding:60px 0 80px; margin-top:40px}
+  .ledger{columns:2; column-gap:40px; font-family:var(--sans); font-size:11.5px; color:var(--bone-faint); line-height:1.9}
+  .ledger b{color:var(--bone-dim)}
+  .sig{margin-top:48px; padding-top:28px; border-top:1px solid var(--line2); font-size:14px; color:var(--bone-dim)}
+  .sig .nm{font-size:17px; color:var(--bone); font-style:italic}
+  .disc{margin-top:26px; font-family:var(--sans); font-size:10.5px; color:var(--bone-faint); line-height:1.7; max-width:760px}
+  .wm{font-family:var(--sans); font-size:9px; letter-spacing:.3em; text-transform:uppercase; color:rgba(233,227,212,.12); text-align:center; margin-top:40px}
+
+  @media(max-width:760px){
+    .cast,.guns,.laws,.triplet,.fable .feathers{grid-template-columns:1fr}
+    .wallrow{grid-template-columns:1fr; gap:8px}
+    .vs{height:30px}
+    .vs::before{top:50%; bottom:auto; left:0; right:0; width:100%; height:1px}
+    .ev{grid-template-columns:96px 1fr; gap:12px}
+    .ledger{columns:1}
+    .clock .d{margin-left:0; max-width:none; width:100%}
+    .step{grid-template-columns:26px 1fr}
+  }
+</style>
+
+<div id="bar"></div>
+<div id="top">
+  <span>Circuit Court for Baltimore County</span>
+  <span class="c">No. C-03-CV-24-003218</span>
+</div>
+
+<header>
+  <div class="maxim reveal"><span class="star">✦</span>fraus et dolus nemini patrocinari debent<span class="star">✦</span></div>
+  <div class="caption reveal">Brenner&nbsp;et&nbsp;al. &nbsp;v.&nbsp; Schatz &nbsp;·&nbsp; A Record of Self-Inflicted Contradiction</div>
+  <h1 class="title reveal">Authors of<br>Their Own<br>Demise</h1>
+  <p class="lede reveal">"No one has done more to question the validity of this lien than the <b>Plaintiffs</b> themselves."</p>
+  <p class="sub reveal">What follows is drawn entirely from the Plaintiffs' own sworn filings, their own Custodial Agreement, the Baltimore County Land Records, and the federal government's own loan-level disclosure. The Defendant supplies no accusation he did not first find in their pages. He has only turned them around to face their authors.</p>
+  <div class="cue">Scroll · the evidence</div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="kicker reveal">The Conceit</div>
+    <h2 class="reveal">The Defendant is not the accuser. <em>The record is.</em></h2>
+    <div class="body reveal">
+      <p>A foreclosure turns on one question: <strong>was the foreclosing party entitled to enforce the Note when it sued?</strong> Md. Code Ann., Com. Law § 3-301; Real Prop. § 7-105(d)(5). Everything else is noise.</p>
+      <p>To win below, the Plaintiffs answered that question with three sworn propositions — that the Note was <span class="blood">never transferred, never securitized, and always Wells Fargo's.</span> They prevailed on those propositions in the May 31, 2026 Order.</p>
+      <p>Then the federal record arrived. And it was the Plaintiffs — not the Defendant — who had already written the contradiction. Every exhibit below is theirs.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="kicker reveal">The Cast — Who Held What, and When</div>
+    <h2 class="reveal">Four parties. <em>One held the Note. It was never the Plaintiffs.</em></h2>
+    <div class="cast reveal">
+      <div class="cell">
+        <div class="role">Plaintiffs · Named Indorsee</div>
+        <h3>Wells Fargo Bank, N.A.</h3>
+        <p>Pool Issuer, Servicer, and — for roughly twelve years — its own document custodian, all at once. The Note's special indorsee. Yet not in possession at the appointment, nor at the commencement.</p>
+      </div>
+      <div class="cell">
+        <div class="role">Actual Custodian</div>
+        <h3>Deutsche Bank National Trust Co.</h3>
+        <p>Physically held the original Note from September 27, 2022 onward — including on every date material to this action. A bailee. Never a party to this suit.</p>
+      </div>
+      <div class="cell">
+        <div class="role">The Federal Record</div>
+        <h3>Ginnie Mae (GNMA)</h3>
+        <p>The program that pooled this Note in 2010 and whose public, issuer-reported disclosure data the Plaintiffs could neither edit nor suppress. The witness they could not silence.</p>
+      </div>
+      <div class="cell">
+        <div class="role">Defendant · in propria persona</div>
+        <h3>Jeffrey M. Schatz</h3>
+        <p>Reconstructed the custody truth from 70+ GB of public Ginnie Mae data after the materials this Court called "something simple to provide" were withheld.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="kicker reveal">The Centerpiece — Sworn vs. Record</div>
+    <h2 class="reveal">They won on three sentences. <em>The federal record refutes all three.</em></h2>
+    <div class="body reveal"><p>Left: the Plaintiffs' position, as the May 31 Order adopted it. Right: Ginnie Mae's own loan-level disclosure for Pool 082539. The Defendant wrote none of this. They did.</p></div>
+
+    <div class="wall">
+      <div class="wallrow">
+        <div class="swornbox fromL"><span class="tag s">Sworn / Found</span><div class="txt">"The note was neither transferred to Deutsche Bank nor was there a negotiation for it."</div><div class="src">— May 31, 2026 Order, on Plaintiffs' representation</div></div>
+        <div class="vs"><span>vs</span></div>
+        <div class="recbox fromR"><span class="tag r">Record</span><div class="txt">The Note was conveyed into <b>Ginnie Mae II Pool 082539</b> (CUSIP 36225EZD7) at issuance, May 1, 2010 — and <b>removed</b> from it in the December 2019 reporting period under removal reason code 2.</div><div class="src">— Ginnie Mae official loan-level disclosure · seq 1013782744</div></div>
+      </div>
+
+      <div class="wallrow">
+        <div class="swornbox fromL"><span class="tag s">Sworn / Found</span><div class="txt">The Note was "placed with Deutsche bank solely as a facility to store the note" — a simple portfolio asset, never securitized.</div><div class="src">— Plaintiffs' representation, adopted in the Order</div></div>
+        <div class="vs"><span>vs</span></div>
+        <div class="recbox fromR"><span class="tag r">Record</span><div class="txt">A federally <b>securitized</b> instrument, held under Ginnie Mae custodial protocols — issued into an MBS pool, factored, disclosed, and removed by reason code, all on the public record for fifteen years.</div><div class="src">— Ginnie Mae II Pool 082539 · pool & loan-level disclosure</div></div>
+      </div>
+
+      <div class="wallrow">
+        <div class="swornbox fromL"><span class="tag s">Sworn / Found</span><div class="txt">"Wells Fargo has been able to account for the location of the note and lack of 'transfers'…" — i.e., always with Wells Fargo.</div><div class="src">— May 31, 2026 Order</div></div>
+        <div class="vs"><span>vs</span></div>
+        <div class="recbox fromR"><span class="tag r">Record</span><div class="txt"><b>Wells Fargo self-custody until September 2022</b> (Minneapolis), then shipped to Deutsche Bank on Sept. 27, 2022. Not "always" anywhere — and never in Wells Fargo's hands at the August 2024 commencement.</div><div class="src">— WF "Request for Release of Documents," 9/26/2022; emBTRUST log</div></div>
+      </div>
+
+      <div class="wallrow">
+        <div class="swornbox fromL"><span class="tag s">Sworn — Affirmatively</span><div class="txt">The Plaintiffs' affidavit <b>swears Wells Fargo possessed</b> the Note.</div><div class="src">— Plaintiffs' sworn affidavit of record</div></div>
+        <div class="vs"><span>vs</span></div>
+        <div class="recbox fromR"><span class="tag r">Record</span><div class="txt">By August 2024 the Note had sat in <b>Deutsche Bank's</b> custody for nearly two years. Not a gap in their proof — a sworn statement against the documents.</div><div class="src">— Custody chain; Deutsche Bank production</div></div>
+      </div>
+    </div>
+
+    <div class="estoppel reveal">
+      <div class="lbl">The Trap They Set for Themselves — Judicial Estoppel</div>
+      <p>Having <em>prevailed</em> on "never transferred, never securitized, always Wells Fargo," the Plaintiffs cannot now invoke the very Ginnie Mae pooling, removal, and custody regime they denied to explain Wells Fargo's possession or authority. A party "may not, after taking and prevailing upon one position, assume a contrary position simply because [its] interests have changed." <em>Dashiell v. Meeks</em>, 396 Md. 149 (2006). They denied the framework when denial won. They cannot borrow it back now.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="kicker reveal">The Smoking Guns</div>
+    <h2 class="reveal">Six contradictions. <em>Each one signed by them.</em></h2>
+    <div class="guns">
+      <div class="gun reveal">
+        <div class="no">EXHIBIT 01</div>
+        <h3>Possession at Inception</h3>
+        <p>Standing is measured the day the action is filed; it cannot be retrofitted. A specially indorsed note in another's hands makes that other a mere bailee — and leaves the indorsee, out of possession, no holder either.</p>
+        <div class="pin"><span class="hot">Aug. 26, 2024:</span> suit filed. The Note was in Deutsche Bank's vault. <em>Anderson v. Burson</em>, 424 Md. 232 (2011).</div>
+      </div>
+      <div class="gun reveal">
+        <div class="no">EXHIBIT 02</div>
+        <h3>"Indorsed in Blank" — Against Their Own Note</h3>
+        <p>The Plaintiffs swore repeatedly that the Note is indorsed in blank. Their own high-resolution production shows a single <strong>special indorsement to Wells Fargo</strong>, executed by Joan M. Mills, VP — a named payee, not a blank.</p>
+        <div class="pin">A blank indorsement holds the whole theory up. <span class="hot">It does not exist on this Note.</span></div>
+      </div>
+      <div class="gun reveal">
+        <div class="no">EXHIBIT 03</div>
+        <h3>Authority to Appoint — No Privity</h3>
+        <p>Only the <strong>holder</strong> of the deed of trust (or the holder's agent) may appoint substitute trustees. No possession of the specially indorsed Note → not the holder → no authority to appoint.</p>
+        <div class="pin"><span class="hot">Aug. 7, 2024:</span> trustees appointed by an entity that was not the holder. The whole foreclosure descends from a defective appointment. RP § 7-105(d)(5).</div>
+      </div>
+      <div class="gun reveal">
+        <div class="no">EXHIBIT 04</div>
+        <h3>The Loss-Mitigation Gateway</h3>
+        <p>Their sworn affidavit certifies a "COVID-19 Recovery Standalone Partial Claim was <strong>not offered</strong>" — and that no HUD forbearance was offered. The county's own land records say otherwise.</p>
+        <div class="pin"><span class="hot">$41,473.09</span> FHA Partial Claim Mortgage, recorded <strong>Book 46541, Page 43</strong>, March 11, 2022. A gateway certification false on the public record.</div>
+      </div>
+      <div class="gun reveal">
+        <div class="no">EXHIBIT 05</div>
+        <h3>The Note That Arrived Late</h3>
+        <p>This Court ordered the original Note produced. It surfaced in Maryland not at the Plaintiffs' direction, but only through this Court's discovery orders and the Defendant's own subpoena.</p>
+        <div class="pin"><span class="hot">Oct. 1, 2025:</span> subpoena duces tecum to Deutsche Bank — more than a year after they purported to foreclose.</div>
+      </div>
+      <div class="gun reveal">
+        <div class="no">EXHIBIT 06</div>
+        <h3>Exhibit 8, Blacked Out — The Tell</h3>
+        <p>The Custodial Agreement's Fee Schedule (Exhibit 8) was produced with <strong>both columns fully redacted</strong> — services and amounts alike. The entire 46-page instrument contains not one dollar figure.</p>
+        <div class="exhibit8">
+          <div class="h"><span>EXHIBIT 8 — FEES OF CUSTODIAN</span><span>Env. C0378FA8…</span></div>
+          <div class="exrow"><div class="exbar"></div><div class="exbar"></div></div>
+          <div class="exrow"><div class="exbar"></div><div class="exbar"></div></div>
+          <div class="exrow"><div class="exbar"></div><div class="exbar"></div></div>
+          <div class="exrow"><div class="exbar"></div><div class="exbar"></div></div>
+        </div>
+        <div class="pin"><span class="hot">No one blacks out a schedule of single-dollar fees to protect the prices.</span> What the bars hide is the list of billable custodial events — the custody record they were denying existed.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="kicker reveal">Chain of Custody</div>
+    <h2 class="reveal">The Note's true journey — <em>and the years it spent nowhere near the Plaintiffs.</em></h2>
+
+    <div class="clock reveal">
+      <span class="big" id="gapnum">0</span>
+      <span class="u">months<br>+</span>
+      <span class="d">Between the <b>Aug. 26, 2024</b> commencement and the Plaintiffs' admitted receipt of the original Note on <b>Sept. 30, 2025</b>, they prosecuted a foreclosure on an instrument they did not hold.</span>
+    </div>
+
+    <div class="tl">
+      <div class="phase reveal">Securitization &amp; Removal</div>
+      <div class="ev reveal"><div class="dt">May 1, 2010</div><div class="tx">Note pooled into <strong>Ginnie Mae II Pool 082539</strong> (CUSIP 36225EZD7).<small>Securitized — the transfer the Order found never happened.</small></div></div>
+      <div class="ev reveal flag"><div class="dt">Dec. 2019</div><div class="tx">Note removed from the pool under <strong>reason code 2</strong> (repurchase of delinquent loan).<small>No Form HUD-11708 release completed. Pool removal ≠ custody release.</small></div></div>
+
+      <div class="phase warn reveal">Phase 1 — Wells Fargo Self-Custody (against Ginnie Mae policy)</div>
+      <div class="ev reveal flag"><div class="dt">2010 – Sept 2022</div><div class="tx">Wells Fargo held the Note as its <strong>own document custodian</strong> ("CPU Document Custody, Minneapolis") while simultaneously Issuer and Servicer of the same pool.<small>Ginnie Mae permits issuer self-custody only through a department vertically independent of servicing/origination. Here it was all one Wells Fargo Home Mortgage operation.</small></div></div>
+
+      <div class="phase reveal">Phase 2 — Deutsche Bank Custody</div>
+      <div class="ev reveal"><div class="dt">Sept. 26, 2022</div><div class="tx">Wells Fargo's "Request for Release of Documents."<small>Their own custody record.</small></div></div>
+      <div class="ev reveal"><div class="dt">Sept. 27, 2022</div><div class="tx">Original Note shipped to <strong>Deutsche Bank</strong>, where it remained.</div></div>
+
+      <div class="phase warn reveal">The Foreclosure — On a Note They Did Not Hold</div>
+      <div class="ev reveal flag"><div class="dt">Aug. 7, 2024</div><div class="tx">Substitute trustees appointed — <strong>Wells Fargo not in possession.</strong></div></div>
+      <div class="ev reveal flag"><div class="dt">Aug. 26, 2024</div><div class="tx">Foreclosure commenced — <strong>Wells Fargo not in possession.</strong><small>Same day: the loss-mitigation affidavit swearing "not offered."</small></div></div>
+      <div class="ev reveal"><div class="dt">Oct. 1, 2025</div><div class="tx">Defendant's subpoena duces tecum to Deutsche Bank.</div></div>
+      <div class="ev reveal flag"><div class="dt">Sept–Oct 2025</div><div class="tx">The original Note finally surfaces in Maryland — <strong>more than a year after they sued.</strong></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="kicker reveal">The Custody Loop — Their Own Exhibit, Read in Full</div>
+    <h2 class="reveal">The phrase they would wave <em>becomes the proof against them.</em></h2>
+    <div class="body reveal"><p>The Plaintiffs would point to a single clause — "for the sole benefit and use of the Owner" — as proof this was mere storage for Wells Fargo. But the clause does not end there. Read in full, it closes a loop that defeats them:</p></div>
+
+    <div class="loop reveal">
+      <div class="step"><div class="n">1</div><div class="t">The Custodial Agreement names Wells Fargo the <b>"Owner"</b> and Deutsche Bank the <b>"Custodian."</b></div></div>
+      <div class="step"><div class="n">2</div><div class="t">It provides the documents are held <b>"for the sole benefit and use of the Owner …</b></div></div>
+      <div class="step"><div class="n">3</div><div class="t">… <em>in accordance with the terms and conditions of the Agreement</em> …</div></div>
+      <div class="step"><div class="n">4</div><div class="t">… <b>which incorporates GNMA Appendix V-01</b> — the Ginnie Mae Document Custody Manual.</div></div>
+      <div class="step"><div class="n">∴</div><div class="t">Therefore the "Owner's benefit" runs <b>only as the federal regime permits</b> — certification, controlled release, HUD-11708, last-endorsement-in-blank, vertical independence. Not a private warehouse. A federal custodial bailment.</div></div>
+    </div>
+
+    <div class="body reveal" style="margin-top:30px">
+      <p>And by incorporating V-01 into their own contract, the Plaintiffs made Ginnie Mae's rules the Agreement's own terms — so the self-custody without vertical independence and the special indorsement instead of a blank are departures from <strong>the very document they rely on.</strong> Offered as impeachment and as a shield against unauthorized foreclosure, <em>Wells Fargo Home Mortgage v. Neal</em>, 398 Md. 705 (2007) — not as a claim under the Guide.</p>
+    </div>
+
+    <div class="triplet reveal">
+      <div class="tri"><div class="a">Owns the mortgage</div><div class="arrow">▼ does not equal ▼</div><div class="b">Holder of the Note</div><div class="c">Ownership of paper ≠ holder status.</div></div>
+      <div class="tri"><div class="a">Holds the deed of trust</div><div class="arrow">▼ does not equal ▼</div><div class="b">Right to enforce</div><div class="c">The deed of trust follows the Note. It does not lead it.</div></div>
+      <div class="tri"><div class="a">"Owner" on the Agreement</div><div class="arrow">▼ what governs ▼</div><div class="b">Possession</div><div class="c">And Wells Fargo lacked it.</div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="kicker reveal">The Law</div>
+    <h2 class="reveal">Possession governs. <em>And finality is no refuge.</em></h2>
+    <div class="laws">
+      <div class="law reveal"><div class="cite">Anderson v. Burson <span>· 424 Md. 232 (2011)</span></div><p>A non-holder in possession must prove the transaction by which it acquired the instrument; a party out of possession of a specially indorsed note is not a holder.</p></div>
+      <div class="law reveal"><div class="cite">Deutsche Bank v. Brock <span>· 430 Md. 714 (2013)</span></div><p>Possession, not ownership, confers holder status. The named indorsee out of possession holds nothing.</p></div>
+      <div class="law reveal"><div class="cite">Schwartz v. Merchants Mortgage <span>· 272 Md. 305 (1974)</span></div><p>Extrinsic fraud reopens an enrolled judgment where it "prevented a fair submission of the controversy" or imposed upon the court's jurisdiction.</p></div>
+      <div class="law reveal"><div class="cite">Hresko v. Hresko <span>· 83 Md. App. 228 (1990)</span></div><p>The test is whether the fraud "prevented the actual dispute from being submitted to the fact finder at all." A document withheld cannot be tested within the proceeding.</p></div>
+    </div>
+    <div class="ataany reveal">
+      <p class="q">Under Md. Rule 2-535(b), the Court may revise a judgment procured by fraud or irregularity <b>"at any time."</b></p>
+      <p class="a">Ratification does not end this. It cannot embed a premise the concealed record disproves.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap fable">
+    <div class="kicker reveal" style="justify-content:center">The Fable — Aesop, <em>The Eagle and the Arrow</em></div>
+    <svg class="seal reveal" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-label="An arrow fletched with a feather, within a seal">
+      <defs>
+        <path id="circ" d="M100,100 m-82,0 a82,82 0 1,1 164,0 a82,82 0 1,1 -164,0"/>
+      </defs>
+      <circle cx="100" cy="100" r="92" fill="none" stroke="#c4a468" stroke-width="1" opacity=".5"/>
+      <circle cx="100" cy="100" r="82" fill="none" stroke="#c4a468" stroke-width="1.5" opacity=".8"/>
+      <circle cx="100" cy="100" r="64" fill="none" stroke="#b22f3b" stroke-width=".6" opacity=".5"/>
+      <text font-family="Georgia,serif" font-size="9.5" letter-spacing="2.5" fill="#c4a468" opacity=".9">
+        <textPath href="#circ" startOffset="2%">WITH OUR OWN FEATHERS · NOT BY ANOTHER'S HAND · ARE WE NOW STRUCK ·</textPath>
+      </text>
+      <!-- wing arc -->
+      <path d="M44,128 Q70,86 120,74" fill="none" stroke="#8a7647" stroke-width="2" opacity=".55"/>
+      <path d="M52,132 Q76,96 122,84" fill="none" stroke="#8a7647" stroke-width="1.2" opacity=".4"/>
+      <!-- arrow shaft (diagonal, downward) -->
+      <line x1="62" y1="60" x2="138" y2="140" stroke="#e9e3d4" stroke-width="2.4"/>
+      <!-- arrowhead -->
+      <path d="M138,140 l-15,-2 l9,-12 z" fill="#b22f3b"/>
+      <!-- fletching feather on the shaft -->
+      <g stroke="#c4a468" stroke-width="1.1" opacity=".95">
+        <line x1="62" y1="60" x2="78" y2="78"/>
+        <line x1="66" y1="56" x2="60" y2="50"/><line x1="70" y1="60" x2="64" y2="54"/>
+        <line x1="74" y1="64" x2="68" y2="58"/><line x1="78" y1="68" x2="72" y2="62"/>
+        <line x1="69" y1="53" x2="79" y2="59"/><line x1="73" y1="57" x2="83" y2="63"/>
+        <line x1="77" y1="61" x2="87" y2="67"/><line x1="81" y1="65" x2="91" y2="71"/>
+      </g>
+      <circle cx="100" cy="100" r="2.2" fill="#b22f3b"/>
+    </svg>
+    <p class="story reveal">An eagle, soaring high, was struck down by an arrow. Looking at the shaft that had killed her, she saw that it was fletched with one of her own feathers.</p>
+    <p class="moral reveal">"We often give our enemies the means of our own destruction."</p>
+    <div class="feathers">
+      <div class="feather-i reveal"><b>The feather of the affidavit</b> — that swore possession.</div>
+      <div class="feather-i reveal"><b>The feather of the Agreement</b> — that incorporated V-01.</div>
+      <div class="feather-i reveal"><b>The feather of "indorsed in blank"</b> — sworn against their own special indorsement.</div>
+      <div class="feather-i reveal"><b>The feather of "not offered"</b> — sworn against a recorded partial claim.</div>
+      <div class="feather-i reveal"><b>The feather they won on</b> — never transferred, never securitized — now refutes them.</div>
+      <div class="feather-i reveal"><b>The feather of Exhibit 8</b> — blacked out, marking the very spot the wing was plucked.</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap close">
+    <p class="max reveal">fraus et dolus nemini patrocinari debent</p>
+    <h2 class="reveal">Fraud and deceit <em>shall benefit no one.</em></h2>
+    <p class="k reveal">The Defendant has authored no accusation the Plaintiffs did not first commit to a sworn page. He demanded the custody materials this Court called "simple to provide"; they were withheld. He reconstructed the truth from the government's own records; it indicted them. They have been, from first filing to final contradiction, the authors of their own demise.</p>
+
+    <div class="relief reveal">
+      <div class="h">Relief Requested — Second Motion to Vacate, Md. Rule 2-535(b)</div>
+      <ul>
+        <li><span class="m">A.</span> FIND, by clear and convincing evidence, extrinsic fraud, irregularity, and fraud upon the Court.</li>
+        <li><span class="m">B.</span> VACATE the May 31, 2026 Order, the foreclosure sale, and any ratification procured upon it.</li>
+        <li><span class="m">C.</span> ORDER production of the complete, unredacted Custodial Agreement — including the redacted Exhibit 8 Fee Schedule — and the full chain of custody, with all Forms HUD-11708.</li>
+        <li><span class="m">D.</span> SET an evidentiary hearing on who was entitled to enforce the Note at commencement.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="ledger">
+      <b>RECORD &amp; AUTHORITY LEDGER</b><br>
+      Md. Rule 2-535(b) — revisory power "at any time" for fraud, mistake, or irregularity.<br>
+      <b>Anderson v. Burson</b>, 424 Md. 232 (2011).<br>
+      <b>Deutsche Bank Nat'l Trust Co. v. Brock</b>, 430 Md. 714 (2013).<br>
+      <b>Schwartz v. Merchants Mortgage Co.</b>, 272 Md. 305 (1974).<br>
+      <b>Hresko v. Hresko</b>, 83 Md. App. 228 (1990).<br>
+      <b>Dashiell v. Meeks</b>, 396 Md. 149 (2006) — judicial estoppel.<br>
+      <b>Wells Fargo Home Mortgage v. Neal</b>, 398 Md. 705 (2007) — regulatory shield.<br>
+      Md. Code Ann., Com. Law §§ 3-205(a), 3-301; Real Prop. § 7-105(d)(5).<br>
+      FHA Partial Claim Mortgage, $41,473.09 — Baltimore County Land Records, Book 46541, Page 43 (Mar. 11, 2022).<br>
+      Ginnie Mae II Pool 082539, CUSIP 36225EZD7 — official loan-level disclosure, seq 1013782744; removal reason code 2 (repurchase of delinquent loan), Dec. 2019.<br>
+      Custodial Agreement, Exhibit 8 — DocuSign Env. C0378FA8-92D2-42B7-8424-E57CB923DF5E (redacted in full).<br>
+      WF "Request for Release of Documents," 9/26/2022; Note delivered to Deutsche Bank 9/27/2022.<br>
+      Special indorsement to Wells Fargo Bank, N.A., executed by Joan M. Mills, VP.
+    </div>
+
+    <div class="sig">
+      <div class="nm">Jeffrey M. Schatz, Defendant in propria persona</div>
+      18 Edmondson Ridge Road, Catonsville, Maryland 21228 · (240) 490-0053 · thecornerspore@gmail.com<br>
+      Circuit Court for Baltimore County · Case No. C-03-CV-24-003218
+    </div>
+
+    <div class="disc">
+      Source note: structural facts (pool type, CUSIP format, issuer numbers, removal-reason-code definitions, custody and endorsement rules) are confirmed against official Ginnie Mae sources — the MBS Guide 5500.3 Rev.1 and the Document Custody Manual / Appendix V-01. Pool- and loan-level figures (balances, the December 2019 removal of seq 1013782744) derive from Ginnie Mae's official, issuer-reported loan-level disclosure as retrieved by the Defendant; the loan-level removal row should be retained as produced before any evidentiary use. Court-record characterizations reflect the Defendant's filed positions in C-03-CV-24-003218.
+    </div>
+
+    <div class="wm">fraus et dolus nemini patrocinari debent · authors of their own demise</div>
+  </div>
+</footer>
+
+<script>
+  // progress bar
+  var bar=document.getElementById('bar');
+  function prog(){var h=document.documentElement;var s=h.scrollTop/(h.scrollHeight-h.clientHeight);bar.style.width=(s*100)+'%';}
+  window.addEventListener('scroll',prog,{passive:true}); prog();
+
+  // reveal on scroll
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:.16, rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.reveal,.fromL,.fromR').forEach(function(el){io.observe(el);});
+
+  // hero in immediately
+  document.querySelectorAll('header .reveal').forEach(function(el,i){ setTimeout(function(){el.classList.add('in');}, 120+i*130); });
+
+  // possession-gap counter (Aug 26 2024 -> Sept 30 2025 = 13 months). Change GAP to taste.
+  var GAP=13;
+  var gn=document.getElementById('gapnum'); var counted=false;
+  var io2=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting && !counted){ counted=true;
+        var n=0,t=setInterval(function(){ n++; gn.textContent=n; if(n>=GAP){clearInterval(t);} }, 70);
+      }
+    });
+  },{threshold:.5});
+  io2.observe(gn);
+</script>
